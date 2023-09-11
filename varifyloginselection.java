@@ -14,8 +14,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
-import org.testng.ITest;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -26,26 +24,28 @@ import org.testng.annotations.Test;
 public class varifyloginselection {
 	WebDriver driver;
 
-	
+// testdata	
 	@DataProvider(name = "GuruData")
 	public Object[][] testData() {
 
 		Object[][] data = new Object[4][2];
 
 		// 1st row
-		data[0][0] = "mngr525429";
-		data[0][1] = "dezAtEh";
+		data[0][0] ="valid";
+		data[0][1] = "valid";
 		//2nd row
 		data[1][0] = "invalid";
-		data[1][1] = "dezAtEh";
+		data[1][1] = "valid";
 		//3rd row
-		data[2][0] = "mngr525429";
+		data[2][0] = "valid";
 		data[2][1] = "invalid";
 		//4th row
 		data[3][0] = "invalid";
 		data[3][1] = "invalid";
 		return data;
 	}
+	
+	//reach the website
 	@BeforeTest
 	
 	public void setup() {
@@ -69,14 +69,14 @@ public class varifyloginselection {
 		WebElement loginptn= driver.findElement(By.name("btnLogin"));
 		loginptn.click();
 		
-
+//assert that the dynamic context is displayed
 		WebElement MNGRID= driver.findElement(By.cssSelector("tr.heading3 > td:nth-child(1)"));
-		//Assert.assertEquals("Guru99 Bank Manager HomePage",driver.getTitle());
 		String expected = MNGRID.getText();
 		
 		assertTrue(expected.matches("Manger Id : mngr([0-9]+)"));
 	}
 	
+	// take a screenshot for the dynamic context(manager id:+digits)
 	@AfterMethod
 	private void TakeScreenShot(ITestResult Result) throws IOException {
 		if(ITestResult.SUCCESS ==Result.getStatus())
@@ -91,7 +91,7 @@ public class varifyloginselection {
 
 	}
  
-	
+	//close the driver
 	
 	@AfterTest
 	public void closedriver(){
